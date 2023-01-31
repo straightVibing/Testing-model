@@ -3,6 +3,7 @@ clc
 clear  
 close all 
 % Comment to test making commits from Git Gui
+% Adding a comment to test Gitnuro
 
 %% ASSIGNING PARAMETER VALUES
 T = 273; %:10:453;  
