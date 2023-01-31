@@ -8,7 +8,7 @@ close all
 %% ASSIGNING PARAMETER VALUES
 T = 273; %:10:453;  
 d_t=1;
-t = 0:d_t:18000;
+t = 0:d_t:18000; % 5 hours
 cs_temp = zeros(length(T),length(t));
 
 Ds=(0.2544*10^(-4))/86400;  %diffusivity of lactate (m2/day)
