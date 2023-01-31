@@ -10,7 +10,9 @@ cs_temp = zeros(length(T),length(t));
 
 Ds=(0.2544*10^(-4))/86400;  %diffusivity of lactate (m2/day)
 Ll=2*10^(-4);               %the thickness of laminar diffusion sublayer()
-rho=50;                     %The biomass density (kg/m3)
+rho=50;                    
+
+%The biomass density (kg/m3)
 Yac=0.212;                  %The bacterial yield (kg dry cell/kg)
 bina=0.02/86400;            %Inactivation coefficient (/day) 
 bdet=0.05/86400;            %Detachment coefficient(/day)
