@@ -1,9 +1,9 @@
 % function [ch] = model(T)
 clc
-clear all 
+clear  
 close all 
 
-T = 273 %:10:453;  
+T = 273; %:10:453;  
 d_t=1;
 t = 0:d_t:18000;
 cs_temp = zeros(length(T),length(t));
