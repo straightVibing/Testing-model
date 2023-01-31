@@ -1,8 +1,11 @@
+
 % function [ch] = model(T)
 clc
 clear  
 close all 
 % Comment to test making commits from Git Gui
+
+%% ASSIGNING PARAMETER VALUES
 T = 273; %:10:453;  
 d_t=1;
 t = 0:d_t:18000;
@@ -22,18 +25,18 @@ Am=54*10^(-4);               %area of membrane(m2)
 F=96450;                    %Fradays constant(C/mol) 
 T = T;                    %Temperature(K)
 R=8.314;                    %gas constant 
-Vc=135*10^(-6);             %
-Va=135*10^(-6);             %
+Vc=135*10^(-6);             % UNKNOWN PARAMETER
+Va=135*10^(-6);             % UNKNOWN PARAMETER
 Eoanode=340;                % Standard voltage anode (mV)
 Eocathode=1299;             % Standard volatage cathode(mV)
 ioref=0.001;                % Exchange current in reference conditions(mA)
 b=120;                      %Tafel Coefficient (mV)
 dcell=2.5*10^(-2);          %distance between electrodes(m)
 kaq=3500;                   %Solution conductivity (mS/m)
-Eka=-155;                   %
+Eka=-155;                   % UNKNOWN PARAMETER
 dm=4.5;                     %Membrance thickness(m)
 km=1.7;                      %Membrance conductivity (mS/m )
-co2equi=7.26*10^(-3);       %
+co2equi=7.26*10^(-3);       % UNKNOWN PARAMTER
 kla=414/86400;              %Overall volumetric oxygen mass tranfer coefficient (/day)
 qo2=2.64/86400;             %specific uptake rate of oxygen (/day)
 rmax=100.9/3600;            % reaction rate constant(/day)
@@ -42,7 +45,7 @@ chb=10^(-7);                %  Concentration of hydrogen in bulk liquid(kg/m3)
 
 
 
-
+%% EQUATIONS
 
 f1 = @(cs) rmax*(cs/(ks+cs)) ;
 f2 = @(mu,nact,phia) (mu*(1/(1+exp(-F/(R*T*1000)*nact)))*phia) ;
@@ -66,7 +69,7 @@ f18 = @(I,cs) (b/2.303)*asinh(I/(2*ioref*cs)) ;
 f19 = @(Ecathode,Eanode,nohm,nconc,nact) abs(Ecathode-Eanode)-nohm-nconc-nact ;
 f20 = @(Eoutput)  Eoutput/100;
 
-
+%% MATRIX CREATION AND VALUE ASSIGNMENT
 d_t=1;
 t = 0:d_t:18000;
 
@@ -91,6 +94,8 @@ nact=zeros(1,length(t));
 Eoutput=zeros(1,length(t));
 I=zeros(1,length(t));
 
+%% INITAL VALUE ASSIGNMENT
+
 mu(1)=1.166370409*10^(-3); %specific growth rate ()
 rs(1)=2.5*10^(-20);        %INITIAL I NEED TO BE KNOWN(TAKEN ZERO HERE) to vary
 phia(1)=0.4286802857;      %volume fraction of active biomass 
@@ -113,6 +118,7 @@ nact(1)=0;                     %Activation of overpotential(mV)
 Eoutput(1)=0;
 I(1)=0;
 
+%% SOLVING THE SYSTEM OF ODEs
      for i=1:(length(t)-1)
 
         phia(i+1) = phia(i) + d_t*f3(rs(i),phia(i),delta(i),L(i));
@@ -138,13 +144,15 @@ I(1)=0;
 
  
      end
-    
+ 
+%% CACULATING POWER GENERATION FROM SOLVED CURRENT     
 idensity=(I/54)*10^(-3);
 % mut=(mu(1)-kd).*t;
 % mutnoexp(:,:)=exp(mut);
 power=Eoutput.*I/10;
 eff(:,:)=power/76.7;     
-     
+
+%% PLOTTING
 % % end
 % figure (3)
 % % plot(cs(1:14000),eff(1:14000))
