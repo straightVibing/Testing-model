@@ -1,5 +1,4 @@
 
-% function [ch] = model(T)
 clc
 clear  
 close all 
