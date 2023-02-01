@@ -198,3 +198,12 @@ saveas(gcf,'currentdensityVScs.tiff')
 % I want to add a plot to show th biofilm thickness against the current
 % density for comparison to published papers
 
+figure (10)
+plot(L(11:14000),idensity(11:14000),'k','LineWidth',1)
+xlabel('Biofilm Thickness (kg/m^{3})','FontWeight','bold')
+ylabel('Current denisty(mA/mm^{2})','FontWeight','bold')
+% xlim([3,7.3]);
+% ylim([2.5,7.55]);
+
+
+
