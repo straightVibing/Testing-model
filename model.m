@@ -195,5 +195,6 @@ xlim([3,7.3]);
 % ylim([2.5,7.55]);
 saveas(gcf,'currentdensityVScs.tiff')
 
-
+% I want to add a plot to show th biofilm thickness against the current
+% density for comparison to published papers
 
