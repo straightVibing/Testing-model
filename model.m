@@ -1,16 +1,21 @@
-% function [ch] = model(T)
-clc
-clear all 
-close all 
 
-T = 273 %:10:453;  
+clc
+clear  
+close all 
+% Comment to test making commits from Git Gui
+% Adding a comment to test Gitnuro
+
+%% ASSIGNING PARAMETER VALUES
+T = 273; %:10:453;  
 d_t=1;
-t = 0:d_t:18000;
+t = 0:d_t:18000; % 5 hours
 cs_temp = zeros(length(T),length(t));
 
 Ds=(0.2544*10^(-4))/86400;  %diffusivity of lactate (m2/day)
 Ll=2*10^(-4);               %the thickness of laminar diffusion sublayer()
-rho=50;                     %The biomass density (kg/m3)
+rho=50;                    
+
+%The biomass density (kg/m3)
 Yac=0.212;                  %The bacterial yield (kg dry cell/kg)
 bina=0.02/86400;            %Inactivation coefficient (/day) 
 bdet=0.05/86400;            %Detachment coefficient(/day)
@@ -20,18 +25,18 @@ Am=54*10^(-4);               %area of membrane(m2)
 F=96450;                    %Fradays constant(C/mol) 
 T = T;                    %Temperature(K)
 R=8.314;                    %gas constant 
-Vc=135*10^(-6);             %
-Va=135*10^(-6);             %
+Vc=135*10^(-6);             % F - UNKNOWN PARAMETER - Defined here and then not used 
+Va=135*10^(-6);             % F - UNKNOWN PARAMETER - Used multiple times
 Eoanode=340;                % Standard voltage anode (mV)
 Eocathode=1299;             % Standard volatage cathode(mV)
 ioref=0.001;                % Exchange current in reference conditions(mA)
 b=120;                      %Tafel Coefficient (mV)
 dcell=2.5*10^(-2);          %distance between electrodes(m)
 kaq=3500;                   %Solution conductivity (mS/m)
-Eka=-155;                   %
-dm=4.5;                     %Membrance thickness(m)
+Eka=-155;                   % F - UNKNOWN PARAMETER - Is created here and then not used for some reason!?
+dm=4.5;                     %Membrance thickness(m) % F - bit large
 km=1.7;                      %Membrance conductivity (mS/m )
-co2equi=7.26*10^(-3);       %
+co2equi=7.26*10^(-3);       % F - UNKNOWN PARAMTER
 kla=414/86400;              %Overall volumetric oxygen mass tranfer coefficient (/day)
 qo2=2.64/86400;             %specific uptake rate of oxygen (/day)
 rmax=100.9/3600;            % reaction rate constant(/day)
@@ -40,7 +45,7 @@ chb=10^(-7);                %  Concentration of hydrogen in bulk liquid(kg/m3)
 
 
 
-
+%% EQUATIONS
 
 f1 = @(cs) rmax*(cs/(ks+cs)) ;
 f2 = @(mu,nact,phia) (mu*(1/(1+exp(-F/(R*T*1000)*nact)))*phia) ;
@@ -64,7 +69,7 @@ f18 = @(I,cs) (b/2.303)*asinh(I/(2*ioref*cs)) ;
 f19 = @(Ecathode,Eanode,nohm,nconc,nact) abs(Ecathode-Eanode)-nohm-nconc-nact ;
 f20 = @(Eoutput)  Eoutput/100;
 
-
+%% MATRIX CREATION AND VALUE ASSIGNMENT
 d_t=1;
 t = 0:d_t:18000;
 
@@ -89,10 +94,12 @@ nact=zeros(1,length(t));
 Eoutput=zeros(1,length(t));
 I=zeros(1,length(t));
 
+%% INITAL VALUE ASSIGNMENT
+
 mu(1)=1.166370409*10^(-3); %specific growth rate ()
 rs(1)=2.5*10^(-20);        %INITIAL I NEED TO BE KNOWN(TAKEN ZERO HERE) to vary
 phia(1)=0.4286802857;      %volume fraction of active biomass 
-L(1)=0.025810^(-5);        %Thickness of biofilm 
+L(1)=2.58E-5;        %Thickness of biofilm 
 cs(1)=7.5;                 %The concentration of lactate in biofilm(kg/m3)
 delta(1)=-1.446759259*10^(-08); %detachment rate
 cco2(1)=1.804718175*10^(-10);%INITIAL CO2 CONC NEEDED and here up needed to be reviewed
@@ -102,15 +109,16 @@ csb(1)=5;                    % Concentration of lactate in bulk liquid(kg/m3)
 cco2b(1)=1.804718175*10^(-25); %The concentration of hydrogen in bulk of liquid(kg/m3)
 co2b(1)=7.23*10^(-3);          % COncnetraiton of oxygen in bulk 
 co2(1)=7.23*10^(-3);            %The concentration of oxygen in cathode camber(kg/m3)
-Ecathode(1)=845.8563841;        %
-Eanode(1)=845.8563841;          %
+Ecathode(1)=845.8563841;        % Believed to be cathode potential based on description given in Figure 7
+Eanode(1)=845.8563841;          % Believed to be anode potential based on description given in Figure 7
 il(1)=8519.75;                  %limited current of mass transfer 
 nohm(1)=0;                     % Ohmic overpontential (mV)
 nconc(1)=0;                    %COncentration overpotential(mV)
 nact(1)=0;                     %Activation of overpotential(mV)
-Eoutput(1)=0;
-I(1)=0;
+Eoutput(1)=0;                   % F - VOLTAGE OUT
+I(1)=0;                         % F - CURRENT 
 
+%% SOLVING THE SYSTEM OF ODEs
      for i=1:(length(t)-1)
 
         phia(i+1) = phia(i) + d_t*f3(rs(i),phia(i),delta(i),L(i));
@@ -136,13 +144,15 @@ I(1)=0;
 
  
      end
-    
+ 
+%% CACULATING POWER GENERATION FROM SOLVED CURRENT     
 idensity=(I/54)*10^(-3);
 % mut=(mu(1)-kd).*t;
 % mutnoexp(:,:)=exp(mut);
 power=Eoutput.*I/10;
 eff(:,:)=power/76.7;     
-     
+
+%% PLOTTING
 % % end
 % figure (3)
 % % plot(cs(1:14000),eff(1:14000))
@@ -184,6 +194,16 @@ ylabel('Current denisty(mA/mm^{2})','FontWeight','bold')
 xlim([3,7.3]);
 % ylim([2.5,7.55]);
 saveas(gcf,'currentdensityVScs.tiff')
+
+% I want to add a plot to show th biofilm thickness against the current
+% density for comparison to published papers
+
+figure (10)
+plot(L(11:14000),idensity(11:14000),'k','LineWidth',1)
+xlabel('Biofilm Thickness (kg/m^{3})','FontWeight','bold')
+ylabel('Current denisty(mA/mm^{2})','FontWeight','bold')
+% xlim([3,7.3]);
+% ylim([2.5,7.55]);
 
 
 
