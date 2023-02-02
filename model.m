@@ -78,7 +78,7 @@ f19 = @(Ecathode,Eanode,nohm,nconc,nact) abs(Ecathode-Eanode)-nohm-nconc-nact ;
 f20 = @(Eoutput)  Eoutput/100;
 
 %% MATRIX CREATION AND VALUE ASSIGNMENT
-
+% Uses static allocation to reduce compute time
 mu=zeros(1,length(t));
 rs=zeros(1,length(t));
 phia=zeros(1,length(t));
@@ -115,8 +115,8 @@ csb(1)=5;                    % Concentration of lactate in bulk liquid(kg/m3)
 cco2b(1)=1.804718175*10^(-25); %The concentration of hydrogen in bulk of liquid(kg/m3)
 co2b(1)=7.23*10^(-3);          % COncnetraiton of oxygen in bulk 
 co2(1)=7.23*10^(-3);            %The concentration of oxygen in cathode camber(kg/m3)
-Ecathode(1)=845.8563841;        % Believed to be cathode potential based on description given in Figure 7
-Eanode(1)=845.8563841;          % Believed to be anode potential based on description given in Figure 7
+Ecathode(1)=845.8563841;        % F - Believed to be cathode potential based on description given in Figure 7
+Eanode(1)=845.8563841;          % F - Believed to be anode potential based on description given in Figure 7
 il(1)=8519.75;                  %limited current of mass transfer 
 nohm(1)=0;                     % Ohmic overpontential (mV)
 nconc(1)=0;                    %COncentration overpotential(mV)
