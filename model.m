@@ -34,7 +34,7 @@ b=120;                      %Tafel Coefficient (mV)
 dcell=2.5*10^(-2);          %distance between electrodes(m)
 kaq=3500;                   %Solution conductivity (mS/m)
 Eka=-155;                   % F - UNKNOWN PARAMETER - Is created here and then not used for some reason!?
-dm=4.5;                     %Membrance thickness(m)
+dm=4.5;                     %Membrance thickness(m) % F - bit large
 km=1.7;                      %Membrance conductivity (mS/m )
 co2equi=7.26*10^(-3);       % F - UNKNOWN PARAMTER
 kla=414/86400;              %Overall volumetric oxygen mass tranfer coefficient (/day)
@@ -99,7 +99,7 @@ I=zeros(1,length(t));
 mu(1)=1.166370409*10^(-3); %specific growth rate ()
 rs(1)=2.5*10^(-20);        %INITIAL I NEED TO BE KNOWN(TAKEN ZERO HERE) to vary
 phia(1)=0.4286802857;      %volume fraction of active biomass 
-L(1)=0.025810^(-5);        %Thickness of biofilm 
+L(1)=2.58E-5;        %Thickness of biofilm 
 cs(1)=7.5;                 %The concentration of lactate in biofilm(kg/m3)
 delta(1)=-1.446759259*10^(-08); %detachment rate
 cco2(1)=1.804718175*10^(-10);%INITIAL CO2 CONC NEEDED and here up needed to be reviewed
@@ -194,6 +194,16 @@ ylabel('Current denisty(mA/mm^{2})','FontWeight','bold')
 xlim([3,7.3]);
 % ylim([2.5,7.55]);
 saveas(gcf,'currentdensityVScs.tiff')
+
+% I want to add a plot to show th biofilm thickness against the current
+% density for comparison to published papers
+
+figure (10)
+plot(L(11:14000),idensity(11:14000),'k','LineWidth',1)
+xlabel('Biofilm Thickness (kg/m^{3})','FontWeight','bold')
+ylabel('Current denisty(mA/mm^{2})','FontWeight','bold')
+% xlim([3,7.3]);
+% ylim([2.5,7.55]);
 
 
 
