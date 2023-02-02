@@ -5,6 +5,8 @@ close all
 % Comment to test making commits from Git Gui
 % Adding a comment to test Gitnuro
 
+%% CURRENT ISSUES
+
 %% ASSIGNING PARAMETER VALUES
 T = 273; %:10:453;  
 d_t=1;
