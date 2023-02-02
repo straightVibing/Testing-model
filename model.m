@@ -205,9 +205,9 @@ saveas(gcf,'currentdensityVSvoltage.tiff')
 % density for comparison to published papers
 
 figure (10)
-plot(L(1:end),idensity(1:end),'k','LineWidth',1)
-xlabel('Biofilm Thickness (kg/m^{3})','FontWeight','bold')
-ylabel('Current denisty(mA/mm^{2})','FontWeight','bold')
+plot(L(1:end),idensity(1:end)*1000,'k','LineWidth',1) % Get current density in A m-2
+xlabel('Biofilm Thickness (m)','FontWeight','bold')
+ylabel('Current denisty(A/m^{2})','FontWeight','bold')
 % xlim([3,7.3]);
 % ylim([2.5,7.55]);
 
