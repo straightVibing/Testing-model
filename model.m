@@ -15,7 +15,7 @@ close all
 %% ASSIGNING PARAMETER VALUES
 T = 273; %:10:453;  
 d_t=1;
-tmax = 500;
+tmax = 1000;
 t = 0:d_t:tmax; % 5 hours
 cs_temp = zeros(length(T),length(t));
 
