@@ -6,11 +6,17 @@ close all
 % Adding a comment to test Gitnuro
 
 %% CURRENT ISSUES
+% Biofilm thickness is unreasonably large
+    % 0.1m at t  1592
+    % I'll try limiting time and see what happens
+% Membrane thickness parameter is also pretty big
+
 
 %% ASSIGNING PARAMETER VALUES
 T = 273; %:10:453;  
 d_t=1;
-t = 0:d_t:18000; % 5 hours
+tmax = 500;
+t = 0:d_t:tmax; % 5 hours
 cs_temp = zeros(length(T),length(t));
 
 Ds=(0.2544*10^(-4))/86400;  %diffusivity of lactate (m2/day)
@@ -72,8 +78,6 @@ f19 = @(Ecathode,Eanode,nohm,nconc,nact) abs(Ecathode-Eanode)-nohm-nconc-nact ;
 f20 = @(Eoutput)  Eoutput/100;
 
 %% MATRIX CREATION AND VALUE ASSIGNMENT
-d_t=1;
-t = 0:d_t:18000;
 
 mu=zeros(1,length(t));
 rs=zeros(1,length(t));
@@ -181,7 +185,7 @@ eff(:,:)=power/76.7;
 % saveas(gcf,'current_AnodePotential.tiff')
 
 figure (8)
-plot(Eoutput(1:14000)/10,idensity(1:14000)/10,'k','LineWidth',1)
+plot(Eoutput(1:end)/10,idensity(1:end)/10,'k','LineWidth',1)
 xlabel('Voltage(mV)','FontWeight','bold')
 ylabel('Current denisty(mA/mm{2})','FontWeight','bold')
 % xlim([15,35]);
@@ -189,19 +193,19 @@ ylabel('Current denisty(mA/mm{2})','FontWeight','bold')
 saveas(gcf,'currentdensityVSvoltage.tiff')
 
 
-figure (9)
-plot(cs(11:14000),idensity(11:14000),'k','LineWidth',1)
-xlabel('Concentration of lactate (kg/m^{3})','FontWeight','bold')
-ylabel('Current denisty(mA/mm^{2})','FontWeight','bold')
-xlim([3,7.3]);
+%figure (9)
+%plot(cs(1:end),idensity(1:end),'k','LineWidth',1)
+%xlabel('Concentration of lactate (kg/m^{3})','FontWeight','bold')
+%ylabel('Current denisty (mA/mm^{2})','FontWeight','bold')
+%xlim([3,7.3]);
 % ylim([2.5,7.55]);
-saveas(gcf,'currentdensityVScs.tiff')
+%saveas(gcf,'currentdensityVScs.tiff')
 
 % I want to add a plot to show th biofilm thickness against the current
 % density for comparison to published papers
 
 figure (10)
-plot(L(11:14000),idensity(11:14000),'k','LineWidth',1)
+plot(L(1:end),idensity(1:end),'k','LineWidth',1)
 xlabel('Biofilm Thickness (kg/m^{3})','FontWeight','bold')
 ylabel('Current denisty(mA/mm^{2})','FontWeight','bold')
 % xlim([3,7.3]);
